@@ -1,6 +1,3 @@
-% Antti Hannukainen 1.10.2010 / Otaniemi
-%
-%
 % Assembly routine for P1-elements
 %
 % The bilinear form is given as a structure bilin :
@@ -27,7 +24,7 @@
 
 
 function [K,F] = boundary_assembly(mesh,bilin,linf)
-
+%{
 Ndof = size(mesh.p,2);
 
 % initialize
@@ -52,10 +49,8 @@ bPy = Py(bind);
 
 Nip = size(X,2);
 Nt = size(mesh.t,2);
-gX{1} = bsxfun(@plus,Ax*X,bx);
-gX{2} = bsxfun(@plus,Ay*X,by);
-
-gX{1}
+gX{1} = bsxfun(@plus,bAx*X,bbx);
+gX{2} = bsxfun(@plus,bAy*X,bby);
 
 L{1} = 1-X(1,:);
 L{2} = X(1,:);
@@ -78,10 +73,10 @@ for i=1:2
     
     Li = repmat(L{i},Nt,1);
     
-    dLi{1} = Px*dL{i};
-    dLi{2} = Py*dL{i};
+    dLi{1} = bPx*dL{i};
+    dLi{2} = bPy*dL{i};
     
-    ff(i,:) = linf(Li,dLi,gX)*W.*abs(detA);
+    ff(i,:) = linf(Li,dLi,gX)*W.*abs(bdetA);
     
 
     
@@ -90,18 +85,20 @@ for i=1:2
         Lj = repmat(L{j},Nt,1);
         
         
-        dLj{1} = Px*dL{j};
-        dLj{2} = Py*dL{j};
+        dLj{1} = bPx*dL{j};
+        dLj{2} = bPy*dL{j};
                
         % Keep track of indeces : can be eliminated ??  !! ??
         iind = [iind i] ; jind = [jind j];
         
         % SIMPLIFIED HERE !!!!
-        kk(mind,:) = bilin(Lj,Li,dLj,dLi,gX)*W.*abs(detA);
+        kk(mind,:) = bilin(Lj,Li,dLj,dLi,gX)*W.*abs(bdetA);
         mind = mind+1;
     end
 end
-K = sparse(mesh.t(iind,:),mesh.t(jind,:),kk,Ndof,Ndof);
-
-F = sparse(mesh.t,ones(size(mesh.t)),ff,Ndof,1);
+%}
+%K = sparse(mesh.t(iind,:),mesh.t(jind,:),kk,Ndof,Ndof);
+K = sparse(size(mesh.p,2),size(mesh.p,2));
+%F = sparse(mesh.t,ones(size(mesh.t)),ff,Ndof,1);
+F = sparse(size(mesh.p,2), 1);
 
