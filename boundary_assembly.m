@@ -79,8 +79,8 @@ for i=1:2
         mind = mind+1;
     end
 end
-%K = sparse(mesh.t(iind,:),mesh.t(jind,:),kk,Ndof,Ndof);
-K = sparse(size(mesh.p,2),size(mesh.p,2));
-%F = sparse(mesh.t,ones(size(mesh.t)),ff,Ndof,1);
-F = sparse(size(mesh.p,2), 1);
+K = sparse(boundary_edges(iind,:),boundary_edges(jind,:),kk,size(mesh.p,2),size(mesh.p,2));
+%K = sparse(size(mesh.p,2),size(mesh.p,2));
+F = sparse(boundary_edges,ones(size(boundary_edges)),ff,size(mesh.p,2),1);
+%F = sparse(size(mesh.p,2), 1);
 
