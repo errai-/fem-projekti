@@ -20,7 +20,7 @@ We are solving \[ \begin{cases}
 \end{cases} \]
 
 By using Green's first identity, we get the weak form \begin{equation*}
-(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} - ik(u + g, v)_{\partial \Omega} = (f, v)_{\Omega}.
+(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} - ik(u, v)_{\partial \Omega} = (f, v)_{\Omega} + (g, v)_{\partial \Omega}.
 \end{equation*} The problem has the Sommerfeld radiation condition: $\frac{\partial u}{\partial \bar{r}} - iku \rightarrow 0$ as $r \rightarrow \infty$ \cite{eom} \cite{wikiwaves}. Thus, $g$ needs to be $O(\frac{1}{r})$ as $r \rightarrow \infty$.
 
 \begin{thebibliography}{9}
