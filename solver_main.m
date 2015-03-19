@@ -42,6 +42,9 @@ for r_idx = 1:size(r_vals,1)
             [K,b] = simple_assembly(mesh,bilin,linf);
             % TODO: System needs an additional path integral over the boundary edge
             %K = K + ;
+            % FEM solution
+            x = K\b;
+            % TODO: do something interesting here, plots/errors?
         end    
     end
 end
