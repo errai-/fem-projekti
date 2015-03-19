@@ -17,7 +17,7 @@ bilin_edge = @(U,V,dU,dV,gX)(-1i*k*U.*V);
 % Load (could be almost anyting)
 linf = @(V,dV,gX)( (heaviside(1-gX{1}.^2-gX{2}.^2)).*V );
 
-for idx=1:8
+for h_idx=1:8
     mesh = refine_tri(mesh);
     
     [K,b] = simple_assembly(mesh,bilin,linf);
