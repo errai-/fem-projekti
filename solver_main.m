@@ -44,13 +44,14 @@ for r_idx = 1:size(r_vals,1)
         
             [K,b] = simple_assembly(mesh,bilin,loadfun);
             % TODO: System needs an additional path integral over the boundary edge
-            %K = K + ;
+            K_add = boundary_assembly(mesh,bilin_edge,loadfun);
+            K = K + K_add;
             % FEM solution
             x = full(K\b);
             % TODO: do something interesting here, plots/errors?
             if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
-                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', x);
+                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x).^2);
                 pause;
             end
         end    

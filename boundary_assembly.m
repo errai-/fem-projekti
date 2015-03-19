@@ -20,7 +20,7 @@
 %
 
 
-function [K,F] = boundary_assembly(mesh,bilin,linf)
+function [K] = boundary_assembly(mesh,bilin,linf)
 % initialize
 [X,W] = gaussint(5,0,1);
 X=X';
@@ -62,7 +62,7 @@ for i=1:2
     %dLi{1} = bPx*dL{i};
     %dLi{2} = bPy*dL{i};
     
-    ff(i,:) = linf(Li,gX)*W.*rssq(A,2);
+    %ff(i,:) = linf(Li,gX)*W.*rssq(A,2);
     
     for j=1:2
         
@@ -81,6 +81,6 @@ for i=1:2
 end
 K = sparse(boundary_edges(iind,:),boundary_edges(jind,:),kk,size(mesh.p,2),size(mesh.p,2));
 %K = sparse(size(mesh.p,2),size(mesh.p,2));
-F = sparse(boundary_edges,ones(size(boundary_edges)),ff,size(mesh.p,2),1);
+%F = sparse(boundary_edges,ones(size(boundary_edges)),ff,size(mesh.p,2),1);
 %F = sparse(size(mesh.p,2), 1);
 
