@@ -25,10 +25,12 @@ function [K] = boundary_assembly(mesh,bilin,linf)
 [X,W] = gaussint(5,0,1);
 X=X';
 
-% TODO: is it ok to assume that only the second column has zeros?
-bedge_ind = find( mesh.e2t(2,:) == 0);
+% Boundary edges are those which are part of only one triangle
+bedge_ind = find( xor(mesh.e2t(1,:) == 0, mesh.e2t(2,:) == 0));
+% boundary_edges is a 2-by-N matrix with each column having indices to the endpoints of an edge
 boundary_edges = mesh.edges(:,bedge_ind);
 
+% B and A are N-by-2 matrices
 B = mesh.p(:,boundary_edges(1,:))';
 A = mesh.p(:,boundary_edges(2,:))' - B;
 
