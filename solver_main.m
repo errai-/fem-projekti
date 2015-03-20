@@ -14,7 +14,7 @@ h_iters = 2;
 h_storage = zeros(h_iters,size(r_vals,1));
 
 % Load function
-loadfun = @(V,dV,gX)(heaviside(1-gX{1}.^2+gX{2}.^2).*V);
+loadfun = @(V,dV,gX)(heaviside(1-gX{1}.^2-gX{2}.^2).*V);
 
 % Domain radius loop
 for r_idx = 1:size(r_vals,1)
