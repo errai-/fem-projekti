@@ -7,7 +7,7 @@ addpath('./util');
 % r values to loop over
 r_vals = [10,20,50]';
 % k values to loop over
-k_vals = [1,2]';
+k_vals = [0.1,2]';
 % initiating and storaging for h
 init_h = 1
 h_iters = 2;
@@ -16,7 +16,7 @@ h_storage = zeros(h_iters,size(r_vals,1));
 % Domain radius loop
 for r_idx = 1:size(r_vals,1)
     % Init circular mesh
-    mesh = discmesh(r_vals(r_idx),1);
+    mesh = discmesh(r_vals(r_idx),init_h);
     
     % Mesh density loop
     for h_idx=1:h_iters
@@ -38,8 +38,8 @@ for r_idx = 1:size(r_vals,1)
             
             % Load function
             linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-            b_linf = @(V,gX)(1*exp(-1i*k*gX{1}));
-            %b_linf = @(V,gX)((-0.5)*exp(1i*k*rssq([gX{1}; gX{2}]).*rssq([gX{1}; gX{2}]).^3));
+            b_linf = @(V,gX)(exp(-1i*k*gX{2}).*V);
+            %b_linf = @(V,gX)((-0.5)*exp(-1i*k*rssq([gX{1}; gX{2}])./rssq([gX{1}; gX{2}]).^3));
             % System
             bilin = @(U,V,dU,dV,gX)(dU{1}.*dV{1} + dU{2}.*dV{2}-(k^2)*U.*V);
             % System edge
@@ -53,7 +53,8 @@ for r_idx = 1:size(r_vals,1)
             % errors(k_idx) = H1_error(mesh, x, uexact_x, uexact_y);
             if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
-                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
+                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x));
+                xlabel('X'); ylabel('Y');
                 pause;
             end
         end
