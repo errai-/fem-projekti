@@ -1,7 +1,7 @@
 %
 % evaluate the H1-error
 %
-function y = my_H1_error(mesh, x, uexact_x, uexact_y)
+function y = H1_error(mesh, x, uexact_x, uexact_y)
 
 [X, W] = inttri(3);
 
