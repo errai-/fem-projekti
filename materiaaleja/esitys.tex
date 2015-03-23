@@ -23,6 +23,17 @@
 \titlepage
 \end{frame}
 
+\begin{frame}{Introduction}
+\begin{itemize}
+\item Consider the wave equation $(\nabla^2 - \frac{1}{c^2} \frac{\partial^2}{\partial t^2})\psi(\bar{r}, t) = 0$. 
+\item Assume that $\psi$ is separable: $\psi(\bar{t}, t) = u(\bar{r})T(t)$. 
+\item Substitute to the wave equation to get $\frac{\nabla^2 u}{u} = \frac{1}{c^2 T} \frac{d^2 T}{dt^2}$. 
+\item The different sides of the equation depend only on $\bar{r}$ and $t$, respectively. Thus, the sides need to be equal to the same constant, say $-k^2$.
+\item From this, we get $\frac{\nabla^2 u}{u} = -k^2$ and $\Delta u + k^2 u = 0$, the (homogeneous) Helmholtz equation.
+\end{itemize}
+\end{frame}
+
+
 \begin{frame}{Problem}
 We want to solve
 \begin{definition}[Helmholtz equation]
