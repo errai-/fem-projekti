@@ -17,11 +17,10 @@ for i=1:2,
 end
 
 % Load function
-linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-b_linf = @(V,gX)(exp(-1i*k*gX{2}).*V);
-%b_linf = @(V,gX)((-0.5)*exp(-1i*k*rssq([gX{1}; gX{2}])./rssq([gX{1}; gX{2}]).^3));
+linf = @(V,dV,gX)( 0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
+b_linf = @(V,gX)( k*1i*(ones(size(gX{1}))-gX{1}./r_val).*exp(-1i*k*gX{1}));
 % System
-bilin = @(U,V,dU,dV,gX)(dU{1}.*dV{1} + dU{2}.*dV{2}-(k^2)*U.*V);
+bilin = @(U,V,dU,dV,gX)( -dU{1}.*dV{1} - dU{2}.*dV{2} + (k^2)*U.*V);
 % System edge
 b_bilin = @(U,V,gX)(1i*k*U.*V);
 
@@ -31,6 +30,6 @@ b_bilin = @(U,V,gX)(1i*k*U.*V);
 x = full(K\b);
 
 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
-trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x));
+trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
 xlabel('X'); ylabel('Y');
 
