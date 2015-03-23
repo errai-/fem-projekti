@@ -8,6 +8,6 @@ function mesh = discmesh(r, h)
     g = decsg(disc);
     % Create the mesh and return.
     [p, e, t] = initmesh(g, 'Hmax', h);
-    mesh = inittri(p, t)
+    mesh = inittri(p, t);
 end
 
