@@ -13,9 +13,6 @@ init_h = 1
 h_iters = 2;
 h_storage = zeros(h_iters,size(r_vals,1));
 
-% Load function
-loadfun = @(V,dV,gX)(heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-
 % Domain radius loop
 for r_idx = 1:size(r_vals,1)
     % Init circular mesh
@@ -37,22 +34,28 @@ for r_idx = 1:size(r_vals,1)
         
         % K value loop 
         for k_idx = 1:size(k_vals,1)
+            k=k_vals(k_idx);
+            % Load function
+            linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
+            b_linf = @(V,gX)(1*exp(-1i*k*gX{1}));
+            %b_linf = @(V,gX)((-0.5)*exp(1i*k*rssq([gX{1}; gX{2}]).*rssq([gX{1}; gX{2}]).^3));
             % System
             bilin = @(U,V,dU,dV,gX)(dU{1}.*dV{1} + dU{2}.*dV{2}-(k_vals(k_idx)^2)*U.*V);
             % System edge
-            bilin_edge = @(U,V,gX)(-1i*k_vals(k_idx)*U.*V);
+            b_bilin = @(U,V,gX)(1i*k_vals(k_idx)*U.*V);
         
-            [K,b] = simple_assembly(mesh,bilin,loadfun);
+            [K,b] = simple_assembly(mesh,bilin,linf);
             % TODO: System needs an additional path integral over the boundary edge
-            K_add = boundary_assembly(mesh,bilin_edge,loadfun);
+            [K_add,b_add] = boundary_assembly(mesh,b_bilin,b_linf);
             K = K + K_add;
+            b = b + b_add;
             % FEM solution
             x = full(K\b);
             % TODO: do something interesting here, plots/errors?
             % errors(k_idx) = H1_error(mesh, x, uexact_x, uexact_y);
             if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
-                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x).^2);
+                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
                 pause;
             end
         end
