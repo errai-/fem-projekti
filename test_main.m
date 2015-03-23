@@ -10,9 +10,11 @@ r_val = 10;
 k = 1;
 % initiating and storaging for h
 h_val = 1;
-
 % Init circular mesh
 mesh = discmesh(r_val,h_val);
+for i=1:2,
+    mesh=refine_tri(mesh);
+end
 
 % Load function
 linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);

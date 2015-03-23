@@ -9,7 +9,7 @@ r_vals = [10,20,50]';
 % k values to loop over
 k_vals = [0.1,2]';
 % initiating and storaging for h
-init_h = 1
+init_h = 1;
 h_iters = 2;
 h_storage = zeros(h_iters,size(r_vals,1));
 
