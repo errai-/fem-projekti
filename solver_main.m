@@ -49,12 +49,14 @@ for r_idx = 1:size(r_vals,1)
             % FEM solution
             x = full(K\b);
             % TODO: do something interesting here, plots/errors?
+            % errors(k_idx) = H1_error(mesh, x, uexact_x, uexact_y);
             if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
                 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x).^2);
                 pause;
             end
-        end    
+        end
+        % plot_error(k_vals, error)
     end
 end
 
