@@ -5,7 +5,7 @@ clear all;
 addpath('./util');
 
 % r values to loop over
-r_vals = [10,20,50]';
+r_vals = [10]';
 % k values to loop over
 k_vals = [0.1,2]';
 % initiating and storaging for h
@@ -38,12 +38,11 @@ for r_idx = 1:size(r_vals,1)
             
             % Load function
             linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-            b_linf = @(V,gX)(exp(-1i*k*gX{2}).*V);
-            %b_linf = @(V,gX)((-0.5)*exp(-1i*k*rssq([gX{1}; gX{2}])./rssq([gX{1}; gX{2}]).^3));
+            b_linf = @(V,gX)(k*1i*(ones(size(gX{1}))-gX{1}./r_vals(r_idx)).*exp(-1i*k*gX{1}));
             % System
-            bilin = @(U,V,dU,dV,gX)(dU{1}.*dV{1} + dU{2}.*dV{2}-(k^2)*U.*V);
+            bilin = @(U,V,dU,dV,gX)(- dU{1}.*dV{1} - dU{2}.*dV{2} + (k^2)*U.*V);
             % System edge
-            b_bilin = @(U,V,gX)(1i*k*U.*V);
+            b_bilin = @(U,V,gX)(-1i*k*U.*V);
         
             [K,b] = combined_assembly(mesh,bilin,linf,b_bilin,b_linf);
 
@@ -51,12 +50,12 @@ for r_idx = 1:size(r_vals,1)
             x = full(K\b);
 
             % errors(k_idx) = H1_error(mesh, x, uexact_x, uexact_y);
-            if (k_idx == size(k_vals,1))
+            %if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
                 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x));
                 xlabel('X'); ylabel('Y');
                 pause;
-            end
+            %end
         end
         % plot_error(k_vals, error)
     end
