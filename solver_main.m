@@ -13,6 +13,10 @@ init_h = 1;
 h_iters = 2;
 h_storage = zeros(h_iters,size(r_vals,1));
 
+
+% uexact_x = @(x,y)(-1i*k*exp(-1i*k*x));
+% uexact_y = @(x,y)(0);
+
 % Domain radius loop
 for r_idx = 1:size(r_vals,1)
     % Init circular mesh
@@ -57,7 +61,7 @@ for r_idx = 1:size(r_vals,1)
                 pause;
             %end
         end
-        % plot_error(k_vals, error)
+        % plot_error(k_vals, errors)
     end
 end
 
