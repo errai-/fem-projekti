@@ -13,10 +13,6 @@ init_h = 1;
 h_iters = 2;
 h_storage = zeros(h_iters,size(r_vals,1));
 
-
-% uexact_x = @(x,y)(-1i*k*exp(-1i*k*x));
-% uexact_y = @(x,y)(0);
-
 % Domain radius loop
 for r_idx = 1:size(r_vals,1)
     % Init circular mesh
@@ -40,7 +36,11 @@ for r_idx = 1:size(r_vals,1)
         for k_idx = 1:size(k_vals,1)
             k=k_vals(k_idx);
             
-            % Load function
+            % exact derivatives of u
+            uexact_x = @(x,y)(-1i*k*exp(-1i*k*x));
+            uexact_y = @(x,y)(0);
+            
+            % Load function 
             linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
             b_linf = @(V,gX)(k*1i*(ones(size(gX{1}))-gX{1}./r_vals(r_idx)).*exp(-1i*k*gX{1}));
             % System
@@ -53,7 +53,7 @@ for r_idx = 1:size(r_vals,1)
             % FEM solution
             x = full(K\b);
 
-            % errors(k_idx) = H1_error(mesh, x, uexact_x, uexact_y);
+            errors(k_idx) = H1_error(mesh, x, uexact_x, uexact_y);
             %if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
                 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
@@ -61,7 +61,7 @@ for r_idx = 1:size(r_vals,1)
                 pause;
             %end
         end
-        % plot_error(k_vals, errors)
+        plot_error(k_vals, errors)
     end
 end
 
