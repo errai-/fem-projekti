@@ -7,7 +7,7 @@ addpath('./util');
 % r values to loop over
 r_vals = [10]';
 % k values to loop over
-k_vals = [0.1,2]';
+k_vals = [0.1, 0.2, 0.3, 0.4,0.5,1,2]';
 % initiating and storaging for h
 init_h = 1;
 h_iters = 2;
