@@ -43,7 +43,7 @@ for r_idx = 1:size(r_vals,1)
             
             % Load function 
             linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-            b_linf = @(V,gX)(k*1i*(ones(size(gX{1}))-gX{1}./r_vals(r_idx)).*exp(-1i*k*gX{1}));
+            b_linf = @(V,gX)(k*1i*(ones(size(gX{1}))-gX{1}./r_vals(r_idx)).*exp(-1i*k*gX{1}).*V);
             % System
             bilin = @(U,V,dU,dV,gX)(- dU{1}.*dV{1} - dU{2}.*dV{2} + (k^2)*U.*V);
             % System edge
