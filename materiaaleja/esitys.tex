@@ -5,7 +5,7 @@
 
 \usetheme{Luebeck}
 
-\usecolortheme[named=black]{structure}
+\usecolortheme[named=magenta]{structure}
 \beamertemplatenavigationsymbolsempty
 \setbeamertemplate{bibliography item}[text]
 \title[Helmholtz]{Helmholtz}
@@ -25,28 +25,54 @@
 
 \begin{frame}{Introduction}
 \begin{itemize}
-\item Consider the wave equation $(\nabla^2 - \frac{1}{c^2} \frac{\partial^2}{\partial t^2})\psi(\bar{r}, t) = 0$. 
-\item Assume that $\psi$ is separable: $\psi(\bar{t}, t) = u(\bar{r})T(t)$. 
+\item Consider the wave equation $(\nabla^2 - \frac{1}{c^2} \frac{\partial^2}{\partial t^2})\psi(\mathbf{r}, t) = 0$. 
+\item Assume that $\psi$ is separable: $\psi(\mathbf{r}, t) = u(\mathbf{r})T(t)$. 
 \item Substitute to the wave equation to get $\frac{\nabla^2 u}{u} = \frac{1}{c^2 T} \frac{d^2 T}{dt^2}$. 
-\item The different sides of the equation depend only on $\bar{r}$ and $t$, respectively. Thus, the sides need to be equal to the same constant, say $-k^2$.
-\item From this, we get $\frac{\nabla^2 u}{u} = -k^2$ and $\Delta u + k^2 u = 0$, the (homogeneous) Helmholtz equation.
+\item The different sides of the equation are independent. Thus, they need to be equal to the same constant, say $-k^2$.
+\item Hence, we obtain for the spatial the homogeneous Helmholtz equation, $\Delta u + k^2 u = 0$.
+\item In a general usage the Robin boundary condition is useful, noting that $u$ is complex-valued
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}{Problem}
-We want to solve
+
 \begin{definition}[Helmholtz equation]
 \[ \begin{cases}
-\Delta u + k^2 u = f \ \mathrm{in} \ \Omega \\ \frac{\partial u}{\partial \bar{r}} + iku = g \ \mathrm{on} \ \partial \Omega.
+\Delta u + k^2 u = f \ \mathrm{in} \ \Omega \\ \frac{\partial u}{\partial n} + iku = g \ \mathrm{on} \ \partial \Omega.
 \end{cases} \]
 \end{definition}
-The problem has the Sommerfeld radiation condition: $\frac{\partial u}{\partial \bar{r}} + iku \rightarrow 0$ as $r \rightarrow \infty$. Thus, $g$ needs to be $O(\frac{1}{r})$ as $r \rightarrow \infty$.
-By using Green's first identity, we get \begin{definition}[Weak form]$(\nabla u, \nabla v)_{\Omega} + k^2(u, v)_{\Omega} + ik(u, v)_{\partial \Omega} = (f, v)_{\Omega} + (g, v)_{\partial \Omega}.$
+\begin{itemize}
+\item The Sommerfeld radiation equation becomes useful, it describes the boundary conditions while no external sources are present.
+\item In 2D, as $r \rightarrow \infty$, $u = O(\frac{1}{\sqrt{r}})$ and $g = O(\frac{1}{\sqrt{r}})$. % insert source
+\item Using Green's first identity, we get the weak form of the problem.
+\end{itemize}
+\begin{definition}[Weak form]
+$(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} + ik(u, v)_{\partial \Omega} = -(f, v)_{\Omega} + (g, v)_{\partial \Omega}.$
 \end{definition}
 \end{frame}
+% http://www.encyclopediaofmath.org/index.php/Radiation_conditions
 
+\begin{frame}{Solver implementation}
+ 
+\begin{itemize}
+ \item A circular domain is used, so that the normal of the boundary is always in the radial direction.
+ \item The $\Omega$ parts can be solved in 2D using the $simple\_assembly$ that was in use during the course.
+ \item The $\partial \Omega$ parts require the usage of a boundary 1D FEM integral.
+ \item These resemble the 1D integral that was encountered in one homework problem.
+ \item $ik(u, v)_{\partial \Omega}$ leads to a boundary system matrix similar to that of $(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega}$.
+ \item $(g, v)_{\partial \Omega}$ leads to a boundary load vector similar to that of $-(f, v)_{\Omega}$.
+\end{itemize}
 
+\end{frame}
+
+\begin{frame}{Solver testing}
+ ss
+\end{frame}
+
+\begin{frame}{Plane wave and errors}
+ ss
+\end{frame}
 
 
 \end{document}
