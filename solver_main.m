@@ -54,7 +54,7 @@ for r_idx = 1:size(r_vals,1)
             % FEM solution
             x = full(K\b);
 
-            errors(k_idx) = total_error(mesh, x, uexact, uexact_x, uexact_y);
+            errors(h_idx,k_idx) = total_error(mesh, x, uexact, uexact_x, uexact_y);
             %if (k_idx == size(k_vals,1))
                 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
                 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
@@ -62,7 +62,7 @@ for r_idx = 1:size(r_vals,1)
                 pause;
             %end
         end
-        plot_error(k_vals, errors)
     end
+    plot_error(h_storage(:,r_idx),k_vals,errors,r_vals(r_idx));
 end
 
