@@ -29,8 +29,8 @@
 \item Assume that $\psi$ is separable: $\psi(\mathbf{r}, t) = u(\mathbf{r})T(t)$. 
 \item Substitute to the wave equation to get $\frac{\nabla^2 u}{u} = \frac{1}{c^2 T} \frac{d^2 T}{dt^2}$. 
 \item The different sides of the equation are independent. Thus, they need to be equal to the same constant, say $-k^2$.
-\item Hence, we obtain for the spatial the homogeneous Helmholtz equation, $\Delta u + k^2 u = 0$.
-\item In a general usage the Robin boundary condition is useful, noting that $u$ is complex-valued
+\item Hence, we obtain for the spatial part the homogeneous Helmholtz equation, $\Delta u + k^2 u = 0$.
+\item We will use a Robin boundary condition, noting that $u$ is complex-valued.
 \end{itemize}
 \end{frame}
 
@@ -43,7 +43,7 @@
 \end{cases} \]
 \end{definition}
 \begin{itemize}
-\item The Sommerfeld radiation equation becomes useful, it describes the boundary conditions while no external sources are present.
+\item The Sommerfeld radiation condition is useful: it describes the boundary conditions while no external sources are present.
 \item In 2D, as $r \rightarrow \infty$, $u = O(\frac{1}{\sqrt{r}})$ and $g = O(\frac{1}{\sqrt{r}})$. % insert source
 \item Using Green's first identity, we get the weak form of the problem.
 \end{itemize}
@@ -67,11 +67,57 @@ $(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} + ik(u, v)_{\partial \Omega}
 \end{frame}
 
 \begin{frame}{Solver testing}
- ss
+\begin{itemize}
+ \item A toy problem: simulate a scaled delta-function with $H(1-r^2)$ (Heaviside).
+ \item Assumed that the Sommerfeld radiation condition is approximately valid already with a quite small $r$.
+\end{itemize}
+ \begin{center}
+\includegraphics[width=.5\textwidth]{delta_real.png}%
+\includegraphics[width=.5\textwidth]{delta_abs2.png}
+\end{center}
 \end{frame}
 
-\begin{frame}{Plane wave and errors}
- ss
+\begin{frame}{Plane waves and errors}
+\begin{columns}
+  \begin{column}{0.39\textwidth}
+    \begin{itemize}
+    \item Since the solver seems to be working, we should do error studies.
+    \item It is hard to come up with a good, general load $f$.
+    \item A good alternative: use an external source - a plane wave propagating in the $x$-direction.
+    \end{itemize}        
+  \end{column}
+  \begin{column}{0.61\textwidth}
+    \begin{center}
+    \includegraphics[width=\textwidth]{planewave_real.png}
+    \begin{itemize}
+    \item A generic plane wave has the form $u = e^{-ikx}$.
+    \end{itemize}
+    \end{center}
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Basics of error analysis}
+ \begin{itemize}
+  \item The external plane wave source is added to $g$ using the explicit form of the boundary condition.
+  \item Basically there are three parameters that can affect the errors
+  \begin{itemize}
+  \item The radius of the domain, $r$: this is only important in the sense that the Sommerfeld radiation condition
+  should be correct for the used $k$ (large enough $r$).
+  \item The maximal edge length of the FEM mesh, $h$: this should be small enough as compared to the wavelength,
+  $2\pi/k$.
+  \item The constant $k$ i.e. the wave number: the relationships to other parameters mentioned above.
+  \end{itemize}
+  \item It is possible to keep $r$ constant and use it for setting the length scale/units of the system.
+ \end{itemize}
+\end{frame}
+
+\begin{frame}{H1 errors}
+ Graafeja, $h$ vs. $k$.
+\end{frame}
+
+\begin{frame}{Conclusions}
+ Diibadaaba
 \end{frame}
 
 

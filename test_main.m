@@ -17,8 +17,8 @@ for i=1:2,
 end
 
 % Load function
-linf = @(V,dV,gX)( 1*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-b_linf = @(V,gX)(0*k*1i*(ones(size(gX{1}))-gX{1}./r_val).*exp(-1i*k*gX{1}).*V);
+linf = @(V,dV,gX)( 0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
+b_linf = @(V,gX)(1*k*1i*(ones(size(gX{1}))-gX{1}./r_val).*exp(-1i*k*gX{1}).*V);
 % System
 bilin = @(U,V,dU,dV,gX)(dU{1}.*dV{1} + dU{2}.*dV{2} - (k^2)*U.*V);
 % System edge
@@ -32,11 +32,10 @@ x = full(K\b);
 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x),'EdgeColor','none','LineStyle','none','FaceLighting','phong');
 xlabel('X'); ylabel('Y');
-%set(gca,'XLim',[0.05 0.28],'XTick',[0.05 0.1 0.15 0.2 0.25])
+set(gca,'XLim',[-30 30],'YLim',[-30 30],'ZLim',[-1.1,1.1]); colorbar;
 
 figure;
-tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x).^2,'EdgeColor','none','LineStyle','none','FaceLighting','phong');
 xlabel('X'); ylabel('Y');
-%set(gca,'XLim',[0.05 0.28],'XTick',[0.05 0.1 0.15 0.2 0.25])
+%set(gca,'XLim',[-20 20],'YLim',[-20 20],'ZLim',[0,0.6]); colorbar;
 
