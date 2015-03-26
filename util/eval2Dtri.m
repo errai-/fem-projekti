@@ -45,7 +45,7 @@ for i=1:3
       dU{2} = bsxfun(@times,dLi{2},u(mesh.t(i,:) ));
 
     else
-      dU{1} = dU{1} + bsxfun(@times,Li,u(mesh.t(i,:) ));
+      dU{1} = dU{1} + bsxfun(@times,dLi{1},u(mesh.t(i,:) ));
       dU{2} = dU{2} + bsxfun(@times,dLi{2},u(mesh.t(i,:) ));
       
     end
