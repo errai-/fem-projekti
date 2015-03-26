@@ -13,7 +13,7 @@ UE = uexact(gX{1}, gX{2});
 
 % evaluate the integral
 
-val = (U - UE).^2;
+val = abs(U - UE).^2;
 
 [Ax, Ay, bx, by, detA] = affine_tri(mesh);
 
