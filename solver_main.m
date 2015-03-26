@@ -7,20 +7,21 @@ addpath('./util');
 % r values to loop over
 r_vals = [10]';
 % k values to loop over
-k_vals = [0.1, 0.2, 0.3, 0.4,0.5,1,2]';
+k_vals = linspace(0.6,5,20)';
 % initiating and storaging for h
-init_h = 1;
-h_iters = 2;
+init_h = 10;
+h_iters = 10;
 h_storage = zeros(h_iters,size(r_vals,1));
 
 % Domain radius loop
 for r_idx = 1:size(r_vals,1)
     % Init circular mesh
-    mesh = discmesh(r_vals(r_idx),init_h);
+    %mesh = discmesh(r_vals(r_idx),init_h);
     
     % Mesh density loop
     for h_idx=1:h_iters
         mesh = refine_tri(mesh);
+        mesh = discmesh(r_vals(r_idx),init_h*(0.7^h_idx));
         
         % Evaluate the length of the longest edge in the mesh 
         px = mesh.p(1,:);    % 1xNpoint - vector
@@ -43,7 +44,7 @@ for r_idx = 1:size(r_vals,1)
             
             % Load function 
             linf = @(V,dV,gX)(0*heaviside(1-gX{1}.^2-gX{2}.^2).*V);
-            b_linf = @(V,gX)(1*k*1i*(ones(size(gX{1}))-gX{1}./r_vals(r_idx)).*exp(-1i*k*gX{1}).*V);
+            b_linf = @(V,gX)(1*k*1i*(ones(size(gX{1}))-gX{1}./sqrt(gX{1}.^2+gX{2}.^2)).*exp(-1i*k*gX{1}).*V);
             % System
             bilin = @(U,V,dU,dV,gX)( dU{1}.*dV{1} + dU{2}.*dV{2} - (k^2)*U.*V);
             % System edge
@@ -53,13 +54,13 @@ for r_idx = 1:size(r_vals,1)
 
             % FEM solution
             x = full(K\b);
-
+            %errors(h_idx,k_idx) = L2_error(mesh, x, uexact);
             errors(h_idx,k_idx) = total_error(mesh, x, uexact, uexact_x, uexact_y);
             %if (k_idx == size(k_vals,1))
-                tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
-                trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
-                xlabel('X'); ylabel('Y');
-                pause;
+                %tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
+                %trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x));
+                %xlabel('X'); ylabel('Y');
+                %pause;
             %end
         end
     end
