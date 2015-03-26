@@ -36,7 +36,8 @@ for r_idx = 1:size(r_vals,1)
         for k_idx = 1:size(k_vals,1)
             k=k_vals(k_idx);
             
-            % exact derivatives of u
+            % exact u and the derivatives of u
+            uexact = @(x,y)(exp(-1i*k*x));
             uexact_x = @(x,y)(-1i*k*exp(-1i*k*x));
             uexact_y = @(x,y)(0);
             
