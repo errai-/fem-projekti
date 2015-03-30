@@ -113,10 +113,20 @@ $(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} + ik(u, v)_{\partial \Omega}
 \end{frame}
 
 \begin{frame}{H1 errors}
- \begin{itemize}
-  \item When the H1 error is plotted as a function of $h$, there is a 'knee' in the error plot for each $k$.
-  \item This is found approximately at a constant value of $kh$, which is with the used parameter values located at $kh \in [2,3]$.
- \end{itemize}
+\begin{columns}
+  \begin{column}{0.41\textwidth}
+  \begin{itemize}
+    \item When the H1 error is plotted as a function of $h$, there is a 'knee' in the error plot for each $k$.
+    \item This is found approximately at a constant value of $kh$, which is with the used parameter values located at $kh \in [2,3]$.
+    \item $kh = \frac{2\pi h}{\lambda}$, i.e. $h \gtrsim \lambda/2$ in the problematic zone.
+  \end{itemize}    
+  \end{column}
+  \begin{column}{0.59\textwidth}
+    \begin{center}
+    \includegraphics[width=\textwidth]{planewave_real.png}
+    \end{center}
+  \end{column}
+\end{columns}
 
 \end{frame}
 
