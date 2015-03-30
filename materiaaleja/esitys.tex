@@ -163,7 +163,7 @@ $(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} + ik(u, v)_{\partial \Omega}
   \item The implementation approximates the boundary conditions with the Sommerfeld radiation condition.
   \item Solver works with both internal and external wave sources.
   \item Good solutions are obtained when $h \lesssim \lambda/2$.
-  \item In this region, the H1 error seems to behave as $O( (kh)^\lambda)$.
+  \item In this region, the H1 error seems to behave approximately as $O( h^{1.9})$.
   \item Defining the mesh takes a significant amount of time - a downside for using a circular domain.
  \end{itemize}
 
