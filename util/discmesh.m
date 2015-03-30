@@ -7,7 +7,7 @@ function mesh = discmesh(r, h)
     % Create the geometry.
     g = decsg(disc);
     % Create the mesh and return.
-    [p, e, t] = initmesh(g, 'Hmax', h);
+    [p, e, t] = initmesh(g, 'Hmax', h,'MesherVersion', 'R2013a');
     mesh = inittri(p, t);
 end
 
