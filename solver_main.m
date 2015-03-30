@@ -5,12 +5,12 @@ clear all;
 addpath('./util');
 
 % r values to loop over
-r_vals = [10]';
+r_vals = [1]';
 % k values to loop over
-k_vals = linspace(0.6,5,20)';
+k_vals = linspace(6,50,20)';
 % initiating and storaging for h
-init_h = 10;
-h_iters = 10;
+init_h = 1;
+h_iters = 12;
 h_storage = zeros(h_iters,size(r_vals,1));
 
 % Domain radius loop
@@ -20,19 +20,12 @@ for r_idx = 1:size(r_vals,1)
     
     % Mesh density loop
     for h_idx=1:h_iters
-        mesh = refine_tri(mesh);
+        %mesh = refine_tri(mesh);
+        
         mesh = discmesh(r_vals(r_idx),init_h*(0.7^h_idx));
-        
-        % Evaluate the length of the longest edge in the mesh 
-        px = mesh.p(1,:);    % 1xNpoint - vector
-        py = mesh.p(2,:);    % 1xNpoint - vector
-        ex = px(mesh.edges); % 2xNedges - matrix.
-        ey = py(mesh.edges); % 2xNedges - matrix.
-        
-        % pythagoras
-        len = (ex(1,:)-ex(2,:) ).^ 2  + (ey(1,:) -ey(2,:)).^2;
-        h_storage(h_idx,r_idx) = sqrt(max(len));
-        
+
+        h_storage(h_idx,r_idx) = longest_edge(mesh);
+
         % K value loop 
         for k_idx = 1:size(k_vals,1)
             k=k_vals(k_idx);
@@ -50,10 +43,13 @@ for r_idx = 1:size(r_vals,1)
             % System edge
             b_bilin = @(U,V,gX)(1i*k*U.*V);
         
+
             [K,b] = combined_assembly(mesh,bilin,linf,b_bilin,b_linf);
 
             % FEM solution
+
             x = full(K\b);
+
             %errors(h_idx,k_idx) = L2_error(mesh, x, uexact);
             errors(h_idx,k_idx) = total_error(mesh, x, uexact, uexact_x, uexact_y);
             %if (k_idx == size(k_vals,1))
