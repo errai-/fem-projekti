@@ -113,25 +113,60 @@ $(\nabla u, \nabla v)_{\Omega} - k^2(u, v)_{\Omega} + ik(u, v)_{\partial \Omega}
 \end{frame}
 
 \begin{frame}{H1 errors}
-\begin{columns}
-  \begin{column}{0.41\textwidth}
-  \begin{itemize}
+\begin{itemize}
     \item When the H1 error is plotted as a function of $h$, there is a 'knee' in the error plot for each $k$.
-    \item This is found approximately at a constant value of $kh$, which is with the used parameter values located at $kh \in [2,3]$.
-    \item $kh = \frac{2\pi h}{\lambda}$, i.e. $h \gtrsim \lambda/2$ in the problematic zone.
+\end{itemize}
+
+\begin{columns}
+  \begin{column}{0.35\textwidth}
+  \begin{itemize}
+     \item This is found approximately at a constant value of $kh$, which is with the used parameter values located at $kh \in [2,3]$.
+   \item $kh = \frac{2\pi h}{\lambda}$, i.e. $h \gtrsim \lambda/2$ is the problematic zone.
   \end{itemize}    
   \end{column}
-  \begin{column}{0.59\textwidth}
+  \begin{column}{0.85\textwidth}
     \begin{center}
-    \includegraphics[width=\textwidth]{planewave_real.png}
+    \includegraphics[width=\textwidth]{error.png}
     \end{center}
   \end{column}
 \end{columns}
 
 \end{frame}
 
+\begin{frame}{A view of the errors}
+ \begin{itemize}
+  \item Plots describing the effect of the 'knee'.
+ \end{itemize}
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{center}
+    \begin{figure}
+    \includegraphics[width=\textwidth]{error_lambdaper2.png}
+    \caption{$h \approx \lambda/2$}
+    \end{figure}
+    \end{center}  
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \begin{center}
+    \begin{figure}
+    \includegraphics[width=\textwidth]{error_lambda.png}
+    \caption{$h \approx \lambda$}
+    \end{figure}
+    \end{center}
+  \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}{Conclusions}
- Diibadaaba
+ \begin{itemize}
+  \item A Helmholtz equation solver was implemented for circular 2D meshes.
+  \item The implementation approximates the boundary conditions with the Sommerfeld radiation condition.
+  \item Solver works with both internal and external wave sources.
+  \item Good solutions are obtained when $h \lesssim \lambda/2$.
+  \item In this region, the H1 error seems to behave as $O( (kh)^\lambda)$.
+  \item Defining the mesh takes a significant amount of time - a downside for using a circular domain.
+ \end{itemize}
+
 \end{frame}
 
 
