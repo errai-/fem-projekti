@@ -5,11 +5,11 @@ clear all;
 addpath('./util');
 
 % r value
-r_val = 30;
+r_val = 1;
 % k values to loop over
 k = 10;
 % initiating and storaging for h
-h_val = 0.5;
+h_val = 0.01;
 % Init circular mesh
 mesh = discmesh(r_val,h_val);
 % Evaluate the length of the longest edge in the mesh 
@@ -39,10 +39,10 @@ x = full(K\b);
 tri = delaunay(mesh.p(1,:)', mesh.p(2,:)');
 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', real(x),'EdgeColor','none','LineStyle','none','FaceLighting','phong');
 xlabel('X'); ylabel('Y');
-set(gca,'XLim',[-30 30],'YLim',[-30 30]); colorbar;
+set(gca,'XLim',[-1 1],'YLim',[-1 1]); colorbar;
 
 figure;
 trisurf(tri, mesh.p(1,:)', mesh.p(2,:)', abs(x).^2,'EdgeColor','none','LineStyle','none','FaceLighting','phong');
 xlabel('X'); ylabel('Y');
-%set(gca,'XLim',[-20 20],'YLim',[-20 20],'ZLim',[0,0.6]); colorbar;
+set(gca,'XLim',[-1 1],'YLim',[-1 1]); colorbar;
 
